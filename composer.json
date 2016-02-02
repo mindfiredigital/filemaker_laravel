@@ -1,0 +1,23 @@
+{
+    "name": "lakinmohapatra/filemaker_laravel",
+    "description": "ORM for interaction with filemaker database",
+    "homepage": "https://github.com/lakinmohapatra/filemaker_laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lakin Mohapatra",
+            "email": "lakinmohapatra@gmail.com",
+            "homepage": "http://lakinhacker.blogspot.in",
+            "role": "Developer"
+        },
+        {
+            "name": "Debabrata Patra",
+            "email": "debabratapatra12@gmail.com",
+            "homepage": "http://kanhudev.blogspot.in/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
