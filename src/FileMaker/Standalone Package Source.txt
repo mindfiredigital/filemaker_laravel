@@ -1,0 +1,1 @@
+This set of FileMaker API files was downloaded on October 4, 2007 from http://filemaker.com/support/updaters/fms9v2_win.html#php_patch (standalone package at the bottom of the page) - this file download did not require any explicit license agreement, however you are expected to abide by the FileMaker Server 9 license when using it.
