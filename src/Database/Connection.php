@@ -19,5 +19,32 @@ class Connection extends BaseConnection
      */
     protected $connection;
     
+    /**
+     * Create a new database connection instance.
+     *
+     * @param  array   $config
+     */
+    public function __construct(array $config)
+    {
+        $this->useDefaultQueryGrammar();
+		$this->useDefaultPostProcessor();
+		$this->config = $config;
+    }
+    
+    public function getConnection()
+	{
+        $config = $this->config;
+        return $this->createFMConnection($config);
+    }
+    
+    public static function createFMConnection($config)
+    {
+        return new FileMaker(
+			$config['database'],
+			$config['host'],
+			$config['username'],
+			$config['password']
+		);
+    }
     
 }
