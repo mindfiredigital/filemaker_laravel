@@ -1,4 +1,4 @@
-<?php namespace filemaker_laravel\Eloquent;
+<?php namespace filemaker_laravel\Database\Eloquent;
 /*
  +--------------------------------------------------------------------
  |
@@ -18,11 +18,16 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 use laravel_filemaker\Database\Query\Builder as QueryBuilder;
 use laravel_filemaker\Database\Eloquent\Builder as Builder;
 
-abstract class Model extends Eloquent
+abstract class Model extends BaseModel
 {
     public function getTable()
     {
         return $this->getLayoutName();
+    }
+    
+    public function test()
+    {
+        echo 'hi';
     }
 
     public function getLayoutName()
