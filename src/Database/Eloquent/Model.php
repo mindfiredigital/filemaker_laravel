@@ -16,7 +16,6 @@
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use laravel_filemaker\Database\Query\Builder as QueryBuilder;
-use laravel_filemaker\Database\Eloquent\Builder as Builder;
 
 abstract class Model extends BaseModel
 {
