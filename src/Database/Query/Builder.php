@@ -88,18 +88,19 @@ class Builder extends BaseBuilder
     {
         $records = array();
         if ($this->isOrCondition($this->wheres)) {
-            
+            $results = $this->compoundFind();
         } else {
             $findCommand = $this->fmConnection->newFindCommand($this->from);
             $this->addBasicFindCriterion($this->wheres, $findCommand);
             $results = $findCommand->execute();
-
-            if (FileMaker::isError($results)) {
-                return false;
-            }
-
-            return $this->getFMResult($columns, $results);
         }
+        
+        if (FileMaker::isError($results)) {
+            echo $results->getMessage();
+                return false;
+        }
+
+        return $this->getFMResult($columns, $results);
     }
 
     protected function getFMResult($columns, $results = array())
@@ -157,6 +158,44 @@ class Builder extends BaseBuilder
                 $where['operator'] . $where['value']
             );
         }
+    }
+    
+    protected function compoundFind()
+    {
+        $orColumns = array();
+        $andColumns = array();
+       
+        foreach ($this->wheres as $where) {
+            $eloquentBoolean = strtolower($where['boolean']);
+            if ($eloquentBoolean === 'or') {
+                $orColumns[] = $where;
+            } elseif ($eloquentBoolean === 'and') {
+                $andColumns[] = $where;
+            }
+        }
+        
+        return $this->newFindRequest($orColumns, $andColumns);
+    }
+    
+    protected function newFindRequest($orColumns, $andColumns)
+    {
+        $findRequests = array();
+        
+        foreach ($orColumns as $orColumn) {
+            $findRequest =  $this->fmConnection->newFindRequest($this->from);
+            $this->addBasicFindCriterion([$orColumn], $findRequest);
+            $this->addBasicFindCriterion($andColumns, $findRequest);
+            $findRequests[] = $findRequest;
+        }
+        
+        $compoundFind = $this->fmConnection->newCompoundFindCommand($this->from);
+        $i = 1;
+        foreach ($findRequests as $findRequest) {
+            $compoundFind->add($i, $findRequest);
+            $i++;
+        }
+        
+        return $compoundFind->execute();
     }
 
    /**
