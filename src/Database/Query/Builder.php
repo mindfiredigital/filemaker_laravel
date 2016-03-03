@@ -88,19 +88,54 @@ class Builder extends BaseBuilder
     {
         $records = array();
         if ($this->isOrCondition($this->wheres)) {
-            $results = $this->compoundFind();
+            $command = $this->compoundFind();
         } else {
-            $findCommand = $this->fmConnection->newFindCommand($this->from);
-            $this->addBasicFindCriterion($this->wheres, $findCommand);
-            $results = $findCommand->execute();
+            $command = $this->fmConnection->newFindCommand($this->from);
+            $this->addBasicFindCriterion($this->wheres, $command);
         }
         
+        $this->orderBy($command);
+        $this->setRange($command);
+        
+        $results = $command->execute();
+         
         if (FileMaker::isError($results)) {
             echo $results->getMessage();
                 return false;
         }
 
         return $this->getFMResult($columns, $results);
+    }
+    
+    public function orderBy($command)
+    {
+        $i = 1;
+        foreach($this->orders as $order) {
+            $direction = $order['direction'] == 'desc'
+                         ? FILEMAKER_SORT_DESCEND
+                         : FILEMAKER_SORT_ASCEND;
+            $command->addSortRule($order['column'], $i, $direction);
+            $i++;
+        }
+    }
+    
+    public function skip($offset)
+    {
+        $this->offset = $offset;
+        return $this;
+    }
+    
+    public function limit($limit)
+    {
+        
+        $this->limit = $limit;
+        return $this;
+    }
+    
+    public function setRange($command)
+    {
+        $command->setRange($this->offset, $this->limit);
+        return $this;
     }
 
     protected function getFMResult($columns, $results = array())
@@ -195,7 +230,7 @@ class Builder extends BaseBuilder
             $i++;
         }
         
-        return $compoundFind->execute();
+        return $compoundFind;
     }
 
    /**
