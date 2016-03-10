@@ -15,9 +15,31 @@ class Builder extends EloBuilder
     {
         $this->query = $query;
     }
-    
-    public function testElo()
+
+    /**
+     * Find a model by its primary key.
+     *
+     * @param  array  $ids
+     * @param  array  $columns
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function findMany($ids, $columns = ['*'])
     {
-        echo 'eloquent builder';
+        if (empty($ids)) {
+            return $this->model->newCollection();
+        }
+
+        foreach ($ids as $id) {
+            $where = array(
+                'column' => $this->model->getQualifiedKeyName(),
+                'value' => $id,
+                'operator' => '==',
+                'boolean' => 'or',
+                'type' => 'Basic'
+            );
+            $this->query->wheres[] = $where;
+        }
+
+        return $this->get($columns);
     }
 }
