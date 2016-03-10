@@ -31,12 +31,12 @@ abstract class Model extends BaseModel
         set_error_handler(null);
         set_exception_handler(null);
     }
-    
+
     public function getTable()
     {
         return $this->getLayoutName();
     }
-    
+
     public function getLayoutName()
     {
         return $this->layoutName;
@@ -46,7 +46,17 @@ abstract class Model extends BaseModel
     {
         $this->layoutName = $layout;
     }
-    
+
+    /**
+     * Get the table qualified key name.
+     *
+     * @return string
+     */
+    public function getQualifiedKeyName()
+    {
+        return $this->getKeyName();
+    }
+
     /**
      * Get a new query builder instance for the connection.
      *
@@ -60,7 +70,7 @@ abstract class Model extends BaseModel
 
         return new QueryBuilder($conn, $grammar, $conn->getPostProcessor());
     }
-    
+
     /**
      * Create a new Eloquent query builder for the model.
      *
@@ -71,16 +81,62 @@ abstract class Model extends BaseModel
     {
         return new Builder($query);
     }
-    
+
+    /**
+     * Save the model to the database.
+     *
+     * @param  array
+     * @return Boolean/Message
+     */
     public function save(array $options = [])
     {
         $attributes = $this->attributes;
-       
-         if ($this->exists) {
-            return $this->update($attributes);
+
+        if ($this->exists) {
+            $query = $this->newBaseQueryBuilder();
+            $query->from = $this->getLayoutName();
+            $dirty = $this->getDirty();
+
+            $where = array(
+                'column' => $this->getKeyName(),
+                'value' => $attributes[$this->getKeyName()],
+                'operator' => '==',
+                'boolean' => 'and',
+                'type' => 'Basic'
+            );
+            $query->wheres = [$where];
+            return $query->update($dirty);
         }
-        
+
         return $this->insert($attributes);
     }
-    
+
+    /**
+     * Delete the model from the database.
+     *
+     * @param  None
+     * @return Boolean/Message
+     */
+    public function delete()
+    {
+        if (is_null($this->getKeyName())) {
+            throw new Exception('No primary key defined on model.');
+        }
+        if (! $this->exists) {
+            return false;
+        }
+
+        $attributes = $this->attributes;
+        $query = $this->newBaseQueryBuilder();
+        $where = array(
+            'column' => $this->getKeyName(),
+            'value' => $attributes[$this->getKeyName()],
+            'operator' => '==',
+            'boolean' => 'and',
+            'type' => 'Basic'
+        );
+        $query->from = $this->getLayoutName();
+        return $query->delete([$where]);
+    }
+
 }
