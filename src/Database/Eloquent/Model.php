@@ -82,12 +82,6 @@ abstract class Model extends BaseModel
         return new Builder($query);
     }
 
-    /**
-     * Save the model to the database.
-     *
-     * @param  array
-     * @return Boolean/Message
-     */
     public function save(array $options = [])
     {
         $attributes = $this->attributes;
@@ -111,12 +105,6 @@ abstract class Model extends BaseModel
         return $this->insert($attributes);
     }
 
-    /**
-     * Delete the model from the database.
-     *
-     * @param  None
-     * @return Boolean/Message
-     */
     public function delete()
     {
         if (is_null($this->getKeyName())) {
@@ -137,6 +125,70 @@ abstract class Model extends BaseModel
         );
         $query->from = $this->getLayoutName();
         return $query->delete([$where]);
+    }
+
+    /**
+     * Get a new query builder that doesn't have any global scopes.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function newQueryWithoutScopes()
+    {
+        $builder = $this->newEloquentBuilder(
+            $this->newBaseQueryBuilder()
+        );
+
+        // Once we have the query builders, we will set the model instances so the
+        // builder can easily access any information it may need from the model
+        // while it is constructing and executing various queries against it.
+        return $builder->setModel($this)->with($this->with);
+    }
+
+    /**
+     * Get the first record matching the attributes or create it.
+     *
+     * @param  array  $attributes
+     * @return static
+     */
+    public static function firstOrCreate(array $attributes)
+    {
+        $query = (new static)->newQueryWithoutScopes();
+
+        foreach ($attributes as $attributeKey => $attributeValue) {
+            $query->where($attributeKey, '==', $attributeValue);
+        }
+
+        if (! is_null($instance = $query->first())) {
+            return $instance;
+        }
+
+        return static::insert($attributes);
+    }
+
+    /**
+     * Get the first record matching the attributes or instantiate it.
+     *
+     * @param  array  $attributes
+     * @return static
+     */
+    public static function firstOrNew(array $attributes)
+    {
+        $query = (new static)->newQueryWithoutScopes();
+
+        foreach ($attributes as $attributeKey => $attributeValue) {
+            $query->where($attributeKey, '==', $attributeValue);
+        }
+
+        if (! is_null($instance = $query->first())) {
+            return $instance;
+        }
+
+        $model = new static();
+        foreach ($attributes as $attributeKey => $attributeValue) {
+             $model->$attributeKey = $attributeValue;
+        }
+
+        return $model;
     }
 
 }
