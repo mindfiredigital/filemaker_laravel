@@ -74,7 +74,60 @@ By default Laravel will assume the primary key of your table is "id".  If you ha
 
 	protected $primaryKey = 'YourTestPrimaryKey';
 
+# Eloquent Usage
+## Retrieving all records
+If you are in controller then use Model name(Test). If you are in model then use "self" instead of "Test".
 
+	Test::all();
+
+Return type is same as laravel
+
+## Adding Constraints
+Since each Eloquent model serves as a query builder, you may also add constraints to queries, and then use the get method to retrieve the results:
+
+	Test::where('active', 1)
+   		->orderBy('name', 'desc')
+     	->skip(10)
+     	->take(10)
+     	->get();
+
+## Retrieving single record
+Retrieve a model by its primary key
+
+	Test::find(1);
+Retrieve the first model matching the query constraints
+
+	Test::where('active', 1)->first();
+
+## Basic Inserts
+
+To create a new record in the database, simply create a new model instance, set attributes on the model, then call the save method:
+
+	$test = new Test;
+	$test->name = 'name';
+	$test->save();
+
+## Basic Updates
+The save method may also be used to update models that already exist in the database. To update a model, you should retrieve it, set any attributes you wish to update, and then call the save method.
+
+	$test = Test::find(1);
+	$test->name = 'New Name';
+	$test->save();
+	
+Updates can also be performed against any number of models that match a given query. 
+
+	Test::where('active', 1)
+      ->where('address', 'San Diego')
+      ->update();
+      
+## Deleting Models
+To delete a model, call the delete method on a model instance:
+
+	$test = Test::find(1);
+	$test->delete();
+
+
+	
 
 
 
