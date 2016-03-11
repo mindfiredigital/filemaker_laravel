@@ -20,6 +20,7 @@ class Builder extends BaseBuilder
 
     protected $fmFields;
     protected $fmResult;
+    protected $fmScript;
 
    /**
    * Create a new query builder instance.
@@ -68,7 +69,26 @@ class Builder extends BaseBuilder
             return false;
         }
 
-        return $results->getRecords();
+        return true;
+    }
+
+    public function executeFMScript($scriptAttributes = array())
+    {
+        $results = array();
+
+        $scriptCommand = $this->fmConnection
+                              ->newPerformScriptCommand($this->from,
+                                                        $scriptAttributes['scriptName'],
+                                                        $scriptAttributes['params']);
+        return $scriptCommand->execute();
+    }
+
+    public function performScript($scriptName = '', $params = '')
+    {
+        $this->fmScript = array(
+            'scriptName' => $scriptName,
+            'params' => $params
+        );
     }
 
     public function update(array $columns)
@@ -148,6 +168,10 @@ class Builder extends BaseBuilder
     }
 
     protected function getFindResults($columns) {
+        if (property_exists($this, 'fmScript') && ! empty($this->fmScript)) {
+            $this->executeFMScript($this->fmScript);
+        }
+
         if ($this->isOrCondition($this->wheres)) {
             $command = $this->compoundFind($columns);
         } else {
