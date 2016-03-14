@@ -140,7 +140,8 @@ The firstOrNew method, like firstOrCreate will attempt to locate a record in the
 ## Execute a filemaker script
 You can execute a filemaker script by following command. Please pass script name and parameter to performScript function. 
 Then you need to use get() inorder to get the expected result.
-$this->performScript('Web_Contact_Creation_Script', 'Closed Contract')->get('ContractName');
+
+	$this->performScript('Web_Contact_Creation_Script', 'Closed Contract')->get('ContractName');
 
 
 
