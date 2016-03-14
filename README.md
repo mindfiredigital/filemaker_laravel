@@ -125,6 +125,18 @@ To delete a model, call the delete method on a model instance:
 
 	$test = Test::find(1);
 	$test->delete();
+	
+## Other Creation Methods
+There are two other methods you may use to create models by mass assigning attributes: firstOrCreate and firstOrNew. The firstOrCreate method will attempt to locate a database record using the given column / value pairs. If the model can not be found in the database, a record will be inserted with the given attributes.
+
+The firstOrNew method, like firstOrCreate will attempt to locate a record in the database matching the given attributes. However, if a model is not found, a new model instance will be returned. Note that the model returned by firstOrNew has not yet been persisted to the database. You will need to call save manually to persist it:
+
+	// Retrieve the flight by the attributes, or create it if it doesn't exist...
+	$test = App\Test::firstOrCreate(['name' => 'test name ']);
+
+	// Retrieve the flight by the attributes, or instantiate a new instance...
+	$test = App\Test::firstOrNew(['name' => 'test name']);
+
 
 
 	
