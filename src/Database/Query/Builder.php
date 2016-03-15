@@ -52,7 +52,7 @@ class Builder extends BaseBuilder
     }
 
     /**
-     * Insert a new record into the database.
+     * Gets Filemaker Connection Object
      *
      * @param void
      * @return FileMaker Connection Object
@@ -65,7 +65,7 @@ class Builder extends BaseBuilder
     /**
      * Insert a new record into the database.
      *
-     * @param  array  $values
+     * @param  array  $values - Values to insert
      * @return bool
      */
     public function insert(array $values)
@@ -93,11 +93,12 @@ class Builder extends BaseBuilder
     /**
      * Update record(s) into the database.
      *
-     * @param  array  $columns
+     * @param  array  $columns - Coulmns to update
      * @return bool
      */
     public function update(array $columns)
     {
+        // Get find results
         $results = $this->getFindResults($columns);
 
         if (FileMaker::isError($results)) {
@@ -109,9 +110,13 @@ class Builder extends BaseBuilder
 
         //Loop through each record for mass update
         foreach ($records as $record) {
+            // Get record id
             $recordId = $record->getRecordId();
+
+            // Use new edit command
             $command = $this->fmConnection->newEditCommand($this->from, $recordId);
 
+            // Set fields
             foreach ($columns as $key => $value) {
                 $command->setField($key, $value);
             }
@@ -135,10 +140,11 @@ class Builder extends BaseBuilder
      */
     public function delete($attribute = null)
     {
-
         if (!is_null($attribute)) {
             $this->wheres = $attribute;
         }
+
+        // Make a new find request.
         $command = $this->fmConnection->newFindCommand($this->from);
         $this->addBasicFindCriterion($this->wheres, $command);
 
@@ -183,7 +189,7 @@ class Builder extends BaseBuilder
      */
     protected function getFindResults($columns)
     {
-    // Check for Fm script.
+        // Check for Fm script.
         if (property_exists($this, 'fmScript') && ! empty($this->fmScript)) {
             return $this->executeFMScript($this->fmScript);
         }
@@ -298,7 +304,7 @@ class Builder extends BaseBuilder
      * Set range to the query.
      *
      * @param FileMaker Command
-     * @return \filemaker_laravel\Database\Query\Builder|static
+     * @return Array
      */
     protected function getFMResult($columns, $results = array())
     {
@@ -321,7 +327,7 @@ class Builder extends BaseBuilder
      *
      * @param array $fmRecord
      * @param array/string $columns
-     * @return array $eloquentRecord
+     * @return array
      */
     protected function getFMFieldValues($fmRecord = array(), $columns = '')
     {
@@ -384,13 +390,15 @@ class Builder extends BaseBuilder
     /**
      * Add FileMaker newCompundFindCommand for OR operations
      *
-     * @param array $orColumns
-     * @param array $andColumns
+     * @param array $orColumns - Array containing Or columns
+     * @param array $andColumns - Array containing and columns
      * @return FileMaker Command
      */
     protected function newFindRequest($orColumns, $andColumns)
     {
         $findRequests = array();
+
+        // Make find request for each or column
         foreach ($orColumns as $orColumn) {
             $findRequest =  $this->fmConnection->newFindRequest($this->from);
             $this->addBasicFindCriterion([$orColumn], $findRequest);
@@ -400,6 +408,8 @@ class Builder extends BaseBuilder
 
         $compoundFind = $this->fmConnection->newCompoundFindCommand($this->from);
         $i = 1;
+
+        // Combine all find requests with compound find
         foreach ($findRequests as $findRequest) {
             $compoundFind->add($i, $findRequest);
             $i++;
@@ -411,7 +421,7 @@ class Builder extends BaseBuilder
     /**
     * Used to check for and/or condition
     *
-    * @param array $wheres
+    * @param array $wheres - Where conditions in one array
     * @return bool
     */
     protected function isOrCondition($wheres = array())
@@ -426,7 +436,7 @@ class Builder extends BaseBuilder
     /**
     * Execute FileMaker script
     *
-    * @param array $scriptAttributes
+    * @param array $scriptAttributes - Attributes for filemaker script execution
     * @return FileMaker Result
     */
     public function executeFMScript($scriptAttributes = array())
@@ -445,8 +455,8 @@ class Builder extends BaseBuilder
     /**
     * set name and params in an array
     *
-    * @param string $scriptName
-    * @param string $params
+    * @param string $scriptName - Name of script
+    * @param string $params - Prameter required for filemaker script
     * @return void
     */
     public function performScript($scriptName = '', $params = '')
