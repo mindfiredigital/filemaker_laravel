@@ -1,22 +1,26 @@
 <?php namespace filemaker_laravel\Database\Eloquent;
+
 /*
  +--------------------------------------------------------------------
  |
  | File    : Model.php
  | Path    : ./src/Database/Eloquent/Model.php
- | Purpose : Contains all soap api connection methods for magento.
+ | Purpose : Contains required laravel model methods
  | Created : 9-Feb-2016
  | Author  : Lakin Mohapatra, Debabrata Patra
  | Company : Mindfire Solutions.
- | Comments:
- | Last Modified Date : 9-Feb-2016
- |
  +--------------------------------------------------------------------
  */
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use laravel_filemaker\Database\Query\Builder as QueryBuilder;
 
+/**
+* It overrides methods of default laravel models
+*
+* @see BaseModel
+*
+*/
 abstract class Model extends BaseModel
 {
     /**
@@ -114,7 +118,7 @@ abstract class Model extends BaseModel
     /**
      * Delete the model from the database.
      *
-     * @param  None
+     * @param  void
      * @return Boolean/Message
      */
     public function delete()
@@ -205,5 +209,4 @@ abstract class Model extends BaseModel
 
         return $model;*/
     }
-
 }

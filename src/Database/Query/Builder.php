@@ -1,13 +1,34 @@
 <?php namespace laravel_filemaker\Database\Query;
 
+/*
+ +--------------------------------------------------------------------
+ |
+ | File    : Builder.php
+ | Path    : ./src/Database/Query/Builder.php
+ | Purpose : Contains all methods of laravel query builder.
+ | Created : 9-Feb-2016
+ | Author  : Lakin Mohapatra, Debabrata Patra
+ | Company : Mindfire Solutions.
+ | Comments:
+ +--------------------------------------------------------------------
+ */
+
 use Illuminate\Database\Query\Builder as BaseBuilder;
 use FileMaker;
 use Log;
 
-//use filemaker_laravel\Database\Connection;
-
+/**
+* Used to override methods of laravel query builder.
+*
+* @see BaseBuilder
+*
+*/
 class Builder extends BaseBuilder
 {
+    /**
+    * It contains filemaker connection object.
+    *
+    */
     protected $fmConnection;
 
    /**
