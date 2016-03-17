@@ -36,26 +36,44 @@ abstract class Model extends BaseModel
         set_exception_handler(null);
     }
 
+    /**
+    * Gets table name for eloquent
+    *
+    * @param void
+    * @return String
+    */
     public function getTable()
     {
         return $this->getLayoutName();
     }
 
+    /**
+    * Gets layout name from filemaker databse
+    *
+    * @param void
+    * @return String
+    */
     public function getLayoutName()
     {
         return $this->layoutName;
     }
 
+    /**
+    * Sets layout name
+    *
+    * @param String $layout - Layout Name
+    * @return void
+    */
     public function setLayoutName($layout)
     {
         $this->layoutName = $layout;
     }
 
     /**
-     * Get the table qualified key name.
-     *
-     * @return string
-     */
+    * Get the table qualified key name.
+    * @param void
+    * @return string
+    */
     public function getQualifiedKeyName()
     {
         return $this->getKeyName();
@@ -64,7 +82,8 @@ abstract class Model extends BaseModel
     /**
      * Get a new query builder instance for the connection.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @param void
+     * @return laravel_filemaker\Database\Query\Builder
      */
     protected function newBaseQueryBuilder()
     {
@@ -78,8 +97,8 @@ abstract class Model extends BaseModel
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  \Illuminate\Database\Query\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @param  laravel_filemaker\Database\Query\Builder $query
+     * @return laravel_filemaker\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query)
     {
