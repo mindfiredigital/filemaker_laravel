@@ -1,0 +1,29 @@
+build_settings:
+
+test:
+  php_mess_detector:
+    allowed_warnings: -1
+    rules:
+      - phpmd.xml
+    zero_config: true
+    
+  php_code_sniffer:
+    standard: phpcs.xml
+    allowed_warnings: 0
+    allowed_errors: 0
+  php_loc:
+  php_docblock_checker:
+    allowed_warnings: 0
+  PhpCpd:
+    standard: "PSR2"
+  php_parallel_lint:
+    
+  
+failure:
+  email:
+    committer: true
+    cc: ["lakin.mohapatra@mindfiresolutions.com"]
+complete:
+  email:
+    default_mailto_address: lakin.mohapatra@mindfiresolutions.com
+    committer: true
