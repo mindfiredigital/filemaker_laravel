@@ -1,6 +1,6 @@
 <?php namespace filemaker_laravel\Database\Eloquent;
 
-/*
+/**
  +--------------------------------------------------------------------
  |
  | File    : Model.php
@@ -10,7 +10,7 @@
  | Author  : Lakin Mohapatra, Debabrata Patra
  | Company : Mindfire Solutions.
  +--------------------------------------------------------------------
- */
+ **/
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use laravel_filemaker\Database\Query\Builder as QueryBuilder;

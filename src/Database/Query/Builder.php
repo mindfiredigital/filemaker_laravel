@@ -1,6 +1,6 @@
 <?php namespace laravel_filemaker\Database\Query;
 
-/*
+/**
  +--------------------------------------------------------------------
  |
  | File    : Builder.php
@@ -11,7 +11,7 @@
  | Company : Mindfire Solutions.
  | Comments:
  +--------------------------------------------------------------------
- */
+ **/
 
 use Illuminate\Database\Query\Builder as BaseBuilder;
 use FileMaker;

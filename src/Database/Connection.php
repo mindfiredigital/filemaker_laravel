@@ -11,7 +11,7 @@
  | Company : Mindfire Solutions.
  | Comments:
  +--------------------------------------------------------------------
- */
+ **/
 
 use Illuminate\Database\Connection as BaseConnection;
 use FileMaker;
