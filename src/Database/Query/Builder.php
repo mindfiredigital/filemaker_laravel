@@ -208,7 +208,7 @@ class Builder extends BaseBuilder
      * @param  array  $columns
      * @return bool
      */
-    protected function getFindResults($columns)
+    protected function getFindResults($columns = [])
     {
         // Check for Fm script.
         if (property_exists($this, 'fmScript') && ! empty($this->fmScript)) {
