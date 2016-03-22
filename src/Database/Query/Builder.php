@@ -287,7 +287,7 @@ class Builder extends BaseBuilder
     /**
      * Add "Offset/start" clause to the query.
      *
-     * @param Integer $offset
+     * @param Integer $offset - offset value
      * @return \filemaker_laravel\Database\Query\Builder|static
      */
     public function skip($offset)
@@ -299,7 +299,7 @@ class Builder extends BaseBuilder
     /**
      * Add "Offset/start" clause to the query.
      *
-     * @param Integer $limit
+     * @param Integer $limit - limit for no. of records
      * @return \filemaker_laravel\Database\Query\Builder|static
      */
     public function limit($limit)
@@ -312,7 +312,7 @@ class Builder extends BaseBuilder
     /**
      * Set range to the query.
      *
-     * @param FileMaker Command
+     * @param Object $command - FileMaker Command
      * @return \filemaker_laravel\Database\Query\Builder|static
      */
     public function setRange($command)
@@ -322,19 +322,24 @@ class Builder extends BaseBuilder
     }
 
     /**
-     * Set range to the query.
+     * Get formatted filemaker result
      *
-     * @param FileMaker Command
+     * @param array/string $columns - Field names
+     * @param Array $results - FileMakerResult Object
      * @return Array
      */
     protected function getFMResult($columns, $results = array())
     {
+        $eloquentRecords = array();
+
         if (empty($columns) || empty($results)) {
-            return false;
+            return $eloquentRecords;
         }
 
         $records = $results->getRecords();
         $this->fmFields = $results->getFields();
+        $this->relatedSets = $results->getRelatedSets();
+
 
         foreach ($records as $record) {
             $eloquentRecords[] = $this->getFMFieldValues($record, $columns);
@@ -346,26 +351,54 @@ class Builder extends BaseBuilder
     /**
      * Make an array of fields.
      *
-     * @param array $fmRecord
-     * @param array/string $columns
+     * @param array $fmRecord - FileMakerRecord Object
+     * @param array/string $columns - Field names
      * @return array
      */
     protected function getFMFieldValues($fmRecord = array(), $columns = '')
     {
-        if (empty($fmRecord) || empty($columns)) {
-            return false;
+        $eloquentRecord = array();
+
+        //Check for empty values
+        if (empty($fmRecord) || empty($columns) || empty($this->relatedSets)) {
+            return $eloquentRecord;
         }
 
+        // Assign all fields
         if (in_array('*', $columns)) {
             $columns = $this->fmFields;
         }
 
+        // Assign indivisual fields
         if (is_string($columns)) {
             $columns = [$columns];
         }
 
+        // Get field-value pairs
         foreach ($columns as $column) {
-            $eloquentRecord[$column] = $this->getIndivisualFieldValues($fmRecord, $column);
+            $eloquentRecord[$column] = $this->getIndivisualFieldValues($fmRecord, $column, $this->fmFields);
+        }
+
+        //Check if there is any portal
+        foreach ($this->relatedSets as $relatedSet) {
+            // Get related set.
+            $relatedSetObj = $fmRecord->getRelatedSet($relatedSet);
+
+            // Check for error
+            if (!FileMaker::isError($relatedSetObj)) {
+                $relatedSetfields = $relatedSetObj[0]->getFields();
+
+                // Get relatedset field-value pair
+                foreach ($relatedSetfields as $relatedSetField) {
+                    foreach ($relatedSetObj as $relatedSetRecord) {
+                        $eloquentRecord[$relatedSetField][] = $this->getIndivisualFieldValues(
+                            $relatedSetRecord,
+                            $relatedSetField,
+                            $relatedSetfields
+                        );
+                    }
+                }
+            }
         }
 
         return $eloquentRecord;
@@ -374,22 +407,22 @@ class Builder extends BaseBuilder
     /**
      * Returns value of FileMaker field
      *
-     * @param array $fmRecord
-     * @param array/string $columns
-     * @return integer/string value
+     * @param array $fmRecord - FileMaker Record Object
+     * @param array/string $field - Field name
+     * @return integer/string $totalFields - Array containing all fields
      */
-    protected function getIndivisualFieldValues($fmRecord, $column)
+    protected function getIndivisualFieldValues($fmRecord, $field, $totalFields)
     {
-        return in_array($column, $this->fmFields)
-               ? $fmRecord->getField($column)
+        return in_array($field, $totalFields)
+               ? $fmRecord->getField($field)
                : '';
     }
 
     /**
      * Add FileMaker Criterions for And/Or operations
      *
-     * @param array $wheres
-     * @param array $findCommand
+     * @param array $wheres - Where conditions
+     * @param array $findCommand - FindCommandObject
      * @return void
      */
     protected function addBasicFindCriterion($wheres = array(), $findCommand = array())
