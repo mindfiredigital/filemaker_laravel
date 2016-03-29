@@ -14,6 +14,7 @@ Add below line in require section of your composer.json.
     lakinmohapatra/filemaker_laravel": "*"
 
 You need to load official filemaker library through composer. [This is your choice]
+
 You can also use our filemaker github library by adding below line in your composer.json.
 
     "lakinmohapatra/filemakerapi" : '14.0.2' or '13.0.0' or '12.0.0' or '11.0.0' or '10.0.0' or '9.0.0'
