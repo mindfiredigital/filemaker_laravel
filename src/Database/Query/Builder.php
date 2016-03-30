@@ -360,7 +360,7 @@ class Builder extends BaseBuilder
         $eloquentRecord = array();
 
         //Check for empty values
-        if (empty($fmRecord) || empty($columns) || empty($this->relatedSets)) {
+        if (empty($fmRecord) || empty($columns)) {
             return $eloquentRecord;
         }
 
