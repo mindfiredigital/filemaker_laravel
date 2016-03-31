@@ -24,6 +24,13 @@ use laravel_filemaker\Database\Query\Builder as QueryBuilder;
 abstract class Model extends BaseModel
 {
     /**
+    * Indicates if the model should be timestamped.
+    *
+    * @var bool - (true/false for adding timestamps)
+    */
+    public $timestamps = false;
+
+    /**
      * Create a new Eloquent model instance.
      *
      * @param  array  $attributes
