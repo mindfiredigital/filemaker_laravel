@@ -124,7 +124,7 @@ Updates can also be performed against any number of models that match a given qu
 
 	Test::where('active', 1)
       ->where('address', 'San Diego')
-      ->update();
+      ->update(['name' => 'Deb']);
       
 ## Deleting Models
 To delete a model, call the delete method on a model instance:
