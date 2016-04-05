@@ -147,10 +147,18 @@ The firstOrNew method, like firstOrCreate will attempt to locate a record in the
 You can execute a filemaker script by following command. Please pass script name and parameter to performScript function. 
 Then you need to use get() inorder to get the expected result.
 
-	$this->performScript('Web_Contact_Creation_Script', 'Closed Contract')->get('ContractName');
+	$this->performScript('Web_Contact_Creation_Script', 'test_value')->get('test_field1');
 
 
+## Access Portals
+No extra work needed. This package is smart enough to access all portals attached to the layout automatically. 
+Ex: Suppose you have a portal test_portal inside test layout. Suppose test_portal has one field portal_field1 and three rows. Then you will result like below.
 
+	"test_portal::portal_field1" => array:3 [▼
+		 	0 => "Test1"
+		      	1 => "Test2"
+		      	2 => "Test3"
+		    ]
 	
 
 
