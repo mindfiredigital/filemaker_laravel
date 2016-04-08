@@ -13,11 +13,27 @@ Add below line in require section of your composer.json.
 
     lakinmohapatra/filemaker_laravel": "*"
 
-You need to load official filemaker library through composer. [This is your choice]
+# Ways to load official FileMaker php api.
 
-You can also use our filemaker github library by adding below line in your composer.json.
+1. Make filemaker official library as a laravel package and load it via composer.
 
-    "lakinmohapatra/filemakerapi" : '14.0.2' or '13.0.0' or '12.0.0' or '11.0.0' or '10.0.0' or '9.0.0'
+
+2. As our package is dependent upon official filemaker api, you need to load it through composer autoload. 
+   Steps to do it.
+
+	1. Go to vendor/lakinmohapatra/
+	2. Create a directory named "filemakerapi" 
+	3. Paste the FileMaker.php file with dependent class files.
+
+Go to composer.json present in your root directory . And add the following lines.
+
+	"autoload": {
+	        "classmap": [
+	            "vendor/lakinmohapatra/filemakerapi/FileMaker.php"
+	        ],
+	 }
+	 
+This will autoload FileMaker.php and make it available throughout our package.
 
 Run the following command in terminal to install FileMakerLaravel
 
@@ -147,10 +163,18 @@ The firstOrNew method, like firstOrCreate will attempt to locate a record in the
 You can execute a filemaker script by following command. Please pass script name and parameter to performScript function. 
 Then you need to use get() inorder to get the expected result.
 
-	$this->performScript('Web_Contact_Creation_Script', 'Closed Contract')->get('ContractName');
+	$this->performScript('Web_Contact_Creation_Script', 'test_value')->get('test_field1');
 
 
+## Access Portals
+No extra work needed. This package is smart enough to access all portals attached to the layout automatically. 
+Ex: Suppose you have a portal test_portal inside test layout. Suppose test_portal has one field portal_field1 and three rows. Then you will result like below.
 
+	"test_portal::portal_field1" => array:3 [▼
+		 	0 => "Test1"
+		      	1 => "Test2"
+		      	2 => "Test3"
+		    ]
 	
 
 
