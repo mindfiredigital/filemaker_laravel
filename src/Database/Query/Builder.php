@@ -364,14 +364,14 @@ class Builder extends BaseBuilder
             return $eloquentRecord;
         }
 
-        // Assign all fields
-        if (in_array('*', $columns)) {
-            $columns = $this->fmFields;
-        }
-
         // Assign indivisual fields
         if (is_string($columns)) {
             $columns = [$columns];
+        }
+
+        // Assign all fields
+        if (in_array('*', $columns)) {
+            $columns = $this->fmFields;
         }
 
         // Get field-value pairs
