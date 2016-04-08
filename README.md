@@ -175,7 +175,20 @@ Ex: Suppose you have a portal test_portal inside test layout. Suppose test_porta
 		      	1 => "Test2"
 		      	2 => "Test3"
 		    ]
-	
 
+## Note
+
+If you are getting exceptions like 
+	"Deprecated: Assigning the return value of new by reference is deprecated in   /FileMaker/Implementation/Parser/FMResultSet.php on line 65"
+	
+Then please replace latest version of PEAR.php with older version of PEAR.php present inside FileMaker/ folder.
+Actually this is a bug from official filemaker php api which shows this depricated & strict warnings.
+
+By default, any errors with filemaker package will be logged into your laravel log files.
+
+## Issue Reporting 
+
+If you find any issues with this package, please click on issues section on github navbar and add your issue details.
+	https://github.com/lakinmohapatra/filemaker_laravel/issues
 
 
