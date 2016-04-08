@@ -13,7 +13,27 @@ Add below line in require section of your composer.json.
 
     lakinmohapatra/filemaker_laravel": "*"
 
-You need to load official filemaker library through composer. [This is your choice]
+# Ways to load official FileMaker php api.
+
+1. Make filemaker official library as a laravel package and load it via composer.
+
+
+2. As our package is dependent upon official filemaker api, you need to load it through composer autoload. 
+   Steps to do it.
+
+	1. Go to vendor/lakinmohapatra/
+	2. Create a directory named "filemakerapi" 
+	3. Paste the FileMaker.php file with dependent class files.
+
+Go to composer.json present in your root directory . And add the following lines.
+
+	"autoload": {
+	        "classmap": [
+	            "vendor/lakinmohapatra/filemakerapi/FileMaker.php"
+	        ],
+	 }
+	 
+This will autoload FileMaker.php and make it available throughout our package.
 
 Run the following command in terminal to install FileMakerLaravel
 
