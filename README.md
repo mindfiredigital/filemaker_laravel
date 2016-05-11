@@ -21,7 +21,7 @@ Add below line in require section of your composer.json.
 2. As our package is dependent upon official filemaker api, you need to load it through composer autoload. 
    Steps to do it.
 
-	1. Go to vendor/opensource-mindfire/
+	1. Go to vendor/mindfire/
 	2. Create a directory named "filemakerapi" 
 	3. Paste the FileMaker.php file with dependent class files.
 
@@ -29,7 +29,7 @@ Go to composer.json present in your root directory . And add the following lines
 
 	"autoload": {
 	        "classmap": [
-	            "vendor/opensource-mindfire/filemakerapi/FileMaker.php"
+	            "vendor/mindfire/filemakerapi/FileMaker.php"
 	        ],
 	 }
 	 
