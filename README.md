@@ -11,7 +11,7 @@ You may need to give write access to storage directory(For Detail please go thro
 ## Install FileMakerLaravel Package
 Add below line in require section of your composer.json.
 
-    opensource-mindfire/filemaker_laravel": "*"
+    mindfire/filemaker_laravel": "*"
 
 # Ways to load official FileMaker php api.
 
