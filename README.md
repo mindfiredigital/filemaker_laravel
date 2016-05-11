@@ -8,7 +8,7 @@ First, download the Laravel installer using Composer:
 You may need to give write access to storage directory(For Detail please go through laravel.com).
 
 
-## Install FileMakerLaravel Package
+## Install FileMakerLaravel Package.
 Add below line in require section of your composer.json.
 
     mindfire/filemaker_laravel": "*"
