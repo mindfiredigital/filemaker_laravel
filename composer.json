@@ -1,13 +1,13 @@
 {
-    "name": "lakinmohapatra/filemaker_laravel",
+    "name": "mindfire/filemaker_laravel",
     "description": "ORM for interaction with filemaker database",
-    "homepage": "https://github.com/lakinmohapatra/filemaker_laravel",
+    "homepage": "https://github.com/opensource-mindfire/filemaker_laravel/",
     "license": "MIT",
     "authors": [
         {
             "name": "Lakin Mohapatra",
             "email": "lakinmohapatra@gmail.com",
-            "homepage": "http://lakinhacker.blogspot.in",
+            "homepage": "http://lakinmohapatra.blogspot.in",
             "role": "Developer"
         },
         {
