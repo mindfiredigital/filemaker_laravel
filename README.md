@@ -11,7 +11,7 @@ You may need to give write access to storage directory(For Detail please go thro
 ## Install FileMakerLaravel Package
 Add below line in require section of your composer.json.
 
-    lakinmohapatra/filemaker_laravel": "*"
+    opensource-mindfire/filemaker_laravel": "*"
 
 # Ways to load official FileMaker php api.
 
@@ -21,7 +21,7 @@ Add below line in require section of your composer.json.
 2. As our package is dependent upon official filemaker api, you need to load it through composer autoload. 
    Steps to do it.
 
-	1. Go to vendor/lakinmohapatra/
+	1. Go to vendor/opensource-mindfire/
 	2. Create a directory named "filemakerapi" 
 	3. Paste the FileMaker.php file with dependent class files.
 
@@ -29,7 +29,7 @@ Go to composer.json present in your root directory . And add the following lines
 
 	"autoload": {
 	        "classmap": [
-	            "vendor/lakinmohapatra/filemakerapi/FileMaker.php"
+	            "vendor/opensource-mindfire/filemakerapi/FileMaker.php"
 	        ],
 	 }
 	 
@@ -189,6 +189,6 @@ By default, any errors with filemaker package will be logged into your laravel l
 ## Issue Reporting 
 
 If you find any issues with this package, please click on issues section on github navbar and add your issue details.
-	https://github.com/lakinmohapatra/filemaker_laravel/issues
+	https://github.com/opensource-mindfire/filemaker_laravel/issues
 
 
