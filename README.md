@@ -13,6 +13,10 @@ Add below line in require section of your composer.json.
 
     mindfire/filemaker_laravel": "*"
 
+Run the following command in terminal.
+
+    composer update
+
 # Ways to load official FileMaker php api.
 
 1. Make filemaker official library as a laravel package and load it via composer.
@@ -35,7 +39,7 @@ Go to composer.json present in your root directory . And add the following lines
 	 
 This will autoload FileMaker.php and make it available throughout our package.
 
-Run the following command in terminal to install FileMakerLaravel
+Run the following command in terminal in order to autoload FileMaker.php.
 
     composer update
     
