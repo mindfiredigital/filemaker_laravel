@@ -190,7 +190,7 @@ Actually this is a bug from official filemaker php api which shows this depricat
 
 By default, any errors with filemaker package will be logged into your laravel log files.
 
-## Issue Reporting 
+## Issue Reporting. 
 
 If you find any issues with this package, please click on issues section on github navbar and add your issue details.
 	https://github.com/opensource-mindfire/filemaker_laravel/issues
