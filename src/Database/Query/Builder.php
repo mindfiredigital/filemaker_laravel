@@ -274,13 +274,15 @@ class Builder extends BaseBuilder
      */
     public function fmOrderBy($command)
     {
-        $i = 1;
-        foreach ($this->orders as $order) {
-            $direction = $order['direction'] == 'desc'
-                         ? FILEMAKER_SORT_DESCEND
-                         : FILEMAKER_SORT_ASCEND;
-            $command->addSortRule($order['column'], $i, $direction);
-            $i++;
+        if (! empty($this->orders)) {
+            $i = 1;
+            foreach ($this->orders as $order) {
+                $direction = $order['direction'] == 'desc'
+                             ? FILEMAKER_SORT_DESCEND
+                             : FILEMAKER_SORT_ASCEND;
+                $command->addSortRule($order['column'], $i, $direction);
+                $i++;
+            }
         }
     }
 
