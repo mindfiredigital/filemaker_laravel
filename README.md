@@ -1,3 +1,11 @@
+# Project Archived
+
+This repository has been archived because the package is no longer compatible with the latest Laravel version.
+
+## Why is this repository archived?
+
+The codebase is not compatible with the latest version of Laravel. Due to resource constraints and the lack of maintenance, we are archiving this project.
+
 # Installation
 ## Instal Laravel
 Laravel utilizes Composer to manage its dependencies. So, before using Laravel, make sure you have Composer installed on your machine.
