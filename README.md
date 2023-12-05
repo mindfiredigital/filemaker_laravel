@@ -201,6 +201,6 @@ By default, any errors with filemaker package will be logged into your laravel l
 ## Issue Reporting. 
 
 If you find any issues with this package, please click on issues section on github navbar and add your issue details.
-	https://github.com/opensource-mindfire/filemaker_laravel/issues
+	https://github.com/mindfiredigital/filemaker_laravel/issues
 
 
